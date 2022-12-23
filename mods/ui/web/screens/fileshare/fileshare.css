@@ -276,7 +276,7 @@ div[id^='page']:target #buttonConatiner
 	float: left;
 }
 
-#cancelButton:hover
+#cancelButton:hover, #okButton:hover
 {
 	text-decoration: underline;
 }

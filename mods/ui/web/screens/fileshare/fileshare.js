@@ -44,7 +44,12 @@ dew.on('hide', function(e){
 $(document).ready(function(){
     $(document).keyup(function (e) {
         if (e.keyCode === 27) {
-            effectReset();
+            if(!activePage.endsWith('alertBox')){
+                effectReset();
+            }
+            else{
+                hideAlert();
+            }
         }
         if (e.keyCode == 44) {
             dew.command('Game.TakeScreenshot');  
@@ -64,6 +69,10 @@ $(document).ready(function(){
 
     $('#cancelButton').off('click').on('click', function(e){
         effectReset();
+    });
+
+    $('#okButton').off('click').on('click', function(){
+        hideAlert(true);
     });
 });
 
@@ -104,5 +113,15 @@ function alertBox(alertText)
 {
     $('#wDescription').text(alertText);
     $('#alertBox').fadeIn(100);
+    activePage = activePage+'alertBox';
     dew.command('Game.PlaySound 0x0B02');
+}
+
+function hideAlert(sound){
+    $('#alertBox').hide();
+    effectReset();
+    if(sound)
+    {
+        dew.command('Game.PlaySound 0x0B04');
+    }
 }
