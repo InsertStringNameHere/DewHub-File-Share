@@ -1,7 +1,25 @@
+var mapName = "mainmenu";
+var tabIndex = 0;
+var activePage;
 dew.command('bind F10 game.showscreen fileshare');
 
-var mapName = "mainmenu";
-dew.on("show", function() {
+dew.on("show", function(e) {
+    if(!jQuery.isEmptyObject(e.data)){
+        switch(e.data){
+            case "maps":
+                tabIndex = 0;
+            break;
+            case "gametypes":
+                tabIndex = 1;
+            break;
+            case "mods":
+                tabIndex = 2;
+            break;
+            default:
+        }
+    }else {
+        tabIndex = 0;
+    }
     $('#fileShareWindow').hide();
     $('#blackLayer').hide();
     dew.getSessionInfo().then(function(i){
@@ -11,9 +29,10 @@ dew.on("show", function() {
                 dew.command('Game.HideH3UI 1');
                 $('#fileShareWindow').show();
                 $('#blackLayer').show();
+                initActive();
             }).fadeOut(200);
         } else {
-            $('#fileShareWindow').show();
+            alertBox('File Share cannot be accessed while in-game');
         }
     });
 });
@@ -37,6 +56,12 @@ $(document).ready(function(){
         }
     });
 
+    $('.tabs li a').off('click').on('click',function(e){
+        $('.tabs li').removeClass('selected');
+        $(this).parent().addClass('selected');
+        activePage = e.target.hash;
+    });
+
     $('#cancelButton').off('click').on('click', function(e){
         effectReset();
     });
@@ -44,7 +69,6 @@ $(document).ready(function(){
 
 exiting = false;
 function effectReset(){
-    // Prevent escape spamming
     if(exiting)
         return;
     exiting = true;
@@ -66,4 +90,19 @@ function effectReset(){
             exiting = false;
         }
     })
+}
+
+function initActive()
+{
+    $('.selected').removeClass('selected');
+    $('.tabs li:visible').eq(tabIndex).addClass('selected');
+    location.hash = $('.selected a')[0].hash;
+    activePage = window.location.hash;
+}
+
+function alertBox(alertText)
+{
+    $('#wDescription').text(alertText);
+    $('#alertBox').fadeIn(100);
+    dew.command('Game.PlaySound 0x0B02');
 }
