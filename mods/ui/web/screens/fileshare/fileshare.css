@@ -373,3 +373,17 @@ div[id^='page']:target #buttonConatiner
     padding: 0;
     margin-right: 3vh;
 }
+
+#itemBackground
+{
+    float: left;
+    margin: 0.5cm;
+    padding: 0.5cm;
+    background: rgb(24, 44, 75);
+}
+
+#itemBackground img
+{
+    width: 350px;
+    height: 196px;
+}
