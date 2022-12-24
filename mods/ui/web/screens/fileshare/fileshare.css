@@ -165,7 +165,7 @@ div[id^='page']:target #buttonConatiner
 	margin: 0;
 	text-transform: uppercase;
 	box-sizing: border-box;
-  background-image: -webkit-linear-gradient( 0deg, rgba(27,41,70,0) 0%, rgba(27,41,70,1) 10%, rgba(27,41,70,1) 90%, rgba(27,41,70,0) 100%);
+    background-image: -webkit-linear-gradient( 0deg, rgba(27,41,70,0) 0%, rgba(27,41,70,1) 10%, rgba(27,41,70,1) 90%, rgba(27,41,70,0) 100%);
 }
 
 .tabs:after
@@ -176,7 +176,7 @@ div[id^='page']:target #buttonConatiner
 	width: 100%;
 	bottom: 0;
 	height: 0.15vh;
-  background-image: -webkit-linear-gradient( 0deg, rgba(131,158,190,0) 0%, rgba(131,158,190,0.2) 10%, rgba(131,158,190,0.2) 90%, rgba(131,158,190,0) 100%);
+    background-image: -webkit-linear-gradient( 0deg, rgba(131,158,190,0) 0%, rgba(131,158,190,0.2) 10%, rgba(131,158,190,0.2) 90%, rgba(131,158,190,0) 100%);
 }
 
 .tabs li 
@@ -281,20 +281,6 @@ div[id^='page']:target #buttonConatiner
 	text-decoration: underline;
 }
 
-
-
-.subHeader
-{
-	font-size: 3vh;
-	margin:0;
-	padding:0;
-	height: 4vh;
-	text-transform: uppercase;
-	text-align: center;
-}
-
-
-
 #alertBox:after
 {
 	bottom: 100%;
@@ -374,12 +360,15 @@ div[id^='page']:target #buttonConatiner
     margin-right: 3vh;
 }
 
+
+
 #itemBackground
 {
     float: left;
     margin: 1%;
     padding: 1%;
     width: 28.75%;
+	height: 51%;
     background: rgb(24, 44, 75);
 }
 
@@ -399,4 +388,14 @@ div[id^='page']:target #buttonConatiner
     width: 100%;
     object-fit: cover;
     object-position: left;
+}
+
+#itemBackground h2
+{
+	margin: 1%;
+}
+
+#itemBackground h3
+{
+	margin: 1%;
 }
