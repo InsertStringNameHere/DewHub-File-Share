@@ -390,12 +390,23 @@ div[id^='page']:target #buttonConatiner
     object-position: left;
 }
 
+#itemBackground:hover
+{
+	outline-style: solid;
+	outline-width: 0.5vh;
+}
+
 #itemBackground h2
 {
 	margin: 1%;
+	font-size: 1.93vh;
 }
 
 #itemBackground h3
 {
 	margin: 1%;
+	font-size: 1.93vh;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
