@@ -377,13 +377,26 @@ div[id^='page']:target #buttonConatiner
 #itemBackground
 {
     float: left;
-    margin: 0.5cm;
-    padding: 0.5cm;
+    margin: 1%;
+    padding: 1%;
+    width: 28.75%;
     background: rgb(24, 44, 75);
 }
 
-#itemBackground img
+#imageContainer
 {
-    width: 350px;
-    height: 196px;
+    display: block;
+    position: relative;
+    padding-top: 56.25%;
+}
+
+#imageContainer img
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: left;
 }
