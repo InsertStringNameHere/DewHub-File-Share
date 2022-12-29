@@ -89,7 +89,7 @@ div[id^='page']:target
 	display: inline;
 }
 
-div[id^='page']:target #buttonConatiner
+div[id^='page']:target #buttonContainer
 {
     -webkit-animation: page-fade-in 0.3s;
 }
@@ -112,7 +112,21 @@ div[id^='page']:target #buttonConatiner
     }
 }
 
-#buttonConatiner
+::-webkit-scrollbar 
+{
+    width: 1vh;
+}
+ 
+::-webkit-scrollbar-track 
+{
+    background-color: transparent;
+}
+ 
+::-webkit-scrollbar-thumb {
+    background-color: grey;
+}
+
+#buttonContainer
 {
 	overflow-y: auto;
 	box-sizing: border-box;
@@ -358,4 +372,224 @@ div[id^='page']:target #buttonConatiner
     float: left;
     padding: 0;
     margin-right: 3vh;
+}
+
+
+
+#background
+{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	padding: 0.5%;
+	width: 97.5%;
+	background: -webkit-linear-gradient( -90deg, rgba(18,27,47,0.94902) 0%, rgba(16,26,46,0.9) 20%, rgba(16,26,46,0.90196) 20%, rgba(4,11,25,0.85098) 100%);
+	/*background: -webkit-linear-gradient( -90deg, rgba(14,21,35,0.94902) 0%, rgba(12,20,35,0.9) 20%, rgba(12,20,35,0.90196) 20%, rgba(3,8,19,0.85098) 100%); this one is slightly darker, but I'll leave it here in case I change my mind*/
+}
+
+#itemBackground
+{
+    float: left;
+    margin: 1%;
+    padding: 1%;
+    width: 28.75%;
+	height: 51%;
+	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
+}
+
+#imageContainer
+{
+    display: block;
+    position: relative;
+    padding-top: 56.25%;
+}
+
+#imageContainer img
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: left;
+}
+
+#itemBackground:hover
+{
+	outline-style: solid;
+	outline-width: 0.5vh;
+}
+
+#itemBackground h2
+{
+	margin: 1%;
+	font-size: 1.93vh;
+}
+
+#itemBackground h3
+{
+	margin: 1%;
+	font-size: 1.93vh;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+#mapBackground, #gametypeBackground, #modBackground
+{
+	display: flex;
+	flex-wrap: wrap;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	padding: 1%;
+	width: 96.5%;
+	background: -webkit-linear-gradient( -90deg, rgba(18,27,47,0.94902) 0%, rgba(16,26,46,0.9) 20%, rgba(16,26,46,0.90196) 20%, rgba(4,11,25,0.85098) 100%);
+}
+
+#mapImageBackground, #gametypeImageBackground, #modImageBackground
+{
+	float: left;
+    margin: 1%;
+    padding: 2%;
+    width: 100%;
+	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
+}
+
+#mapImageContainer, #gametypeImageContainer, #modImageContainer
+{
+	display: block;
+    position: relative;
+    padding-top: 56.25%;
+}
+
+#mapImageContainer img, #gametypeImageContainer img, #modImageContainer img
+{
+	position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: left;
+}
+
+#mapInfoContainer, #gametypeInfoContainer, #modInfoContainer
+{
+    padding: 1%;
+	margin: 1%;
+	width: 46%;
+	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
+}
+
+#mapInfoContainer h2, #gametypeInfoContainer h2, #modInfoContainer h2
+{
+	font-size: 2.93vh;
+	margin: 2%;
+}
+
+#mapInfoContainer h3, #gametypeInfoContainer h3, #modInfoContainer h3
+{
+	font-size: 2.43vh;
+	margin: 2%;
+}
+
+#mapDownloadContainer, #gametypeDownloadContainer, #modDownloadContainer
+{
+    padding: 1%;
+	margin: 1%;
+	width: 46%;
+	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
+}
+
+#mapDownloadContainer h3, #gametypeDownloadContainer h3, #modDownloadContainer h3
+{
+	font-size: 2.43vh;
+	margin: 2%;
+	margin-top: 4%;
+}
+
+#mapDownloadButton
+{
+	display: block;
+    text-decoration: none;
+	text-align: left;
+	border: none;
+	margin: 2%;
+	padding: 2%;
+	width: 96%;
+	color: rgb(152, 179, 211);
+	font-size: 2.43vh;
+	background: rgba(44, 65, 106, 0.949);
+}
+
+#mapDownloadButton:hover
+{
+	background-image: url(dew://assets/ux/buttonhover.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+#variantDownloadButton
+{
+	display: block;
+    text-decoration: none;
+	text-align: left;
+	border: none;
+	margin: 2%;
+	padding: 2%;
+	width: 96%;
+	color: rgb(152, 179, 211);
+	font-size: 2.43vh;
+	background: rgba(44, 65, 106, 0.949);
+}
+
+#variantDownloadButton:hover
+{
+	background-image: url(dew://assets/ux/buttonhover.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+/* Used for when a given map does not have a matching variant (gametype)
+#disabledVariantDownloadButton
+{
+	opacity: 0.4;
+    cursor: not-allowed;
+	display: block;
+    text-decoration: none;
+	text-align: left;
+	border: none;
+	margin: 2%;
+	padding: 2%;
+	width: 96%;
+	color: rgb(152, 179, 211);
+	font-size: 2.43vh;
+	background: rgba(44, 65, 106, 0.949);
+}
+*/
+
+#modDownloadButton
+{
+	display: block;
+    text-decoration: none;
+	text-align: left;
+	border: none;
+	margin: 2%;
+	padding: 2%;
+	width: 96%;
+	color: rgb(152, 179, 211);
+	font-size: 2.43vh;
+	background: rgba(44, 65, 106, 0.949);
+}
+
+#modDownloadButton:hover
+{
+	background-image: url(dew://assets/ux/buttonhover.svg);
+	background-position: center;
+	background-repeat: no-repeat;
 }

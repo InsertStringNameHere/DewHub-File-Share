@@ -71,7 +71,7 @@ $(document).ready(function(){
         effectReset();
     });
 
-    $('#okButton').off('click').on('click', function(){
+    $('#okButton').off('click').on('click', function(e){
         hideAlert(true);
     });
 });
@@ -124,4 +124,9 @@ function hideAlert(sound){
     {
         dew.command('Game.PlaySound 0x0B04');
     }
+}
+
+function switchPage(pageHash){
+    location.href=pageHash;
+    activePage=pageHash;
 }
