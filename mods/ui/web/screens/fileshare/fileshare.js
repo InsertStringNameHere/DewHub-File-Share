@@ -431,8 +431,8 @@ function loadMapInfo(mapId)
             newHTML += '<div id="mapDownloadContainer">';
             newHTML += '<button id="mapDownloadButton">Download Map</button>';
             newHTML += '<button id="variantDownloadButton">Download Gametype</button>';
-            newHTML += '<h3>(Insert Progress Bar Here)</h3>';
-            newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
+            //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
+            //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
             newHTML += '</div>';
         }
         document.getElementById("mapInfo").innerHTML = newHTML;
@@ -474,8 +474,8 @@ function loadGametypeInfo(variantId)
             newHTML += '</div>';
             newHTML += '<div id="gametypeDownloadContainer">';
             newHTML += '<button id="variantDownloadButton">Download Gametype</button>';
-            newHTML += '<h3>(Insert Progress Bar Here)</h3>';
-            newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
+            //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
+            //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
             newHTML += '</div>';
         }
         document.getElementById("gametypeInfo").innerHTML = newHTML;
@@ -518,8 +518,8 @@ function loadModInfo(modId)
             newHTML += '</div>';
             newHTML += '<div id="modDownloadContainer">';
             newHTML += '<button id="modDownloadButton">Download Mod</button>';
-            newHTML += '<h3>(Insert Progress Bar Here)</h3>';
-            newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
+            //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
+            //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
             newHTML += '</div>';
         }
         document.getElementById("modInfo").innerHTML = newHTML;
