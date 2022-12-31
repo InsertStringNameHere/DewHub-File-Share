@@ -398,6 +398,14 @@ div[id^='page']:target #buttonContainer
 	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
 }
 
+#invisItemBackground
+{
+	float: left;
+    margin: 1%;
+    padding: 1%;
+    width: 28.75%;
+}
+
 #imageContainer
 {
     display: block;

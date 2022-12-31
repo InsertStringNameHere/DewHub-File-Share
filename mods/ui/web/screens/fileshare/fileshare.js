@@ -152,16 +152,19 @@ function cancelButton()
     {
         $('#cancelButton').html('Close');
         switchPage(1);
+        unloadData();
     }
     else if (window.location.hash == '#page5')
     {
         $('#cancelButton').html('Close');
         switchPage(2);
+        unloadData();
     } 
     else if (window.location.hash == '#page6')
     {
         $('#cancelButton').html('Close');
         switchPage(3);
+        unloadData();
     }
     else
     {
@@ -255,6 +258,33 @@ function getVariantImage(variantFile)
     return variantImage;
 }
 
+function equalizeEntries(count)
+{
+    newHTML = '';
+    if (count % 3 === 2)
+    {
+        newHTML += '<div id="invisItemBackground">';
+        newHTML += '</div>';
+    }
+    if (count % 3 === 1)
+    {
+        newHTML += '<div id="invisItemBackground">';
+        newHTML += '</div>';
+        newHTML += '<div id="invisItemBackground">';
+        newHTML += '</div>';
+    }
+
+    return newHTML;
+}
+
+function unloadData()
+{
+    newHTML = '';
+    document.getElementById("mapInfo").innerHTML = newHTML;
+    document.getElementById("gametypeInfo").innerHTML = newHTML;
+    document.getElementById("modInfo").innerHTML = newHTML;
+}
+
 function loadMaps()
 {
     const xhttp = new XMLHttpRequest();
@@ -264,6 +294,7 @@ function loadMaps()
     {
         if (this.readyState == 4 && this.status == 200) 
         {
+            var entries = 0;
             var newHTML = '';
             const objects = JSON.parse(this.responseText);
             for (let [i, object] of objects.entries()) 
@@ -276,8 +307,10 @@ function loadMaps()
                 newHTML += '<h3>Author: '+object['mapAuthor']+'</h3>';
                 newHTML += '<h3>Type: '+object['mapTags']+'</h3>';
                 newHTML += '<h3>Downloads: '+object['map_downloads']+'</h3>';
-                newHTML += '</div>';  
-            } 
+                newHTML += '</div>';
+                entries++;
+            }
+            newHTML += equalizeEntries(entries);
         }
         document.getElementById("mapCards").innerHTML = newHTML;
     }
@@ -292,6 +325,7 @@ function loadVariants()
     {
         if (this.readyState == 4 && this.status == 200)
         {
+            var entries = 0;
             var newHTML = '';
             const objects = JSON.parse(this.responseText);
             for (let [i, object] of objects.entries()) 
@@ -304,8 +338,10 @@ function loadVariants()
                 newHTML += '<h3>Author: '+object['variantAuthor']+'</h3>';
                 newHTML += '<h3>Type: '+getVariantData(object['variantFileName'])+'</h3>';
                 newHTML += '<h3>Downloads: '/*+object['variant_downloads']+*/+0+'</h3>';
-                newHTML += '</div>';  
+                newHTML += '</div>';
+                entries++;  
             }
+            newHTML += equalizeEntries(entries);
         }
         document.getElementById("variantCards").innerHTML = newHTML;
     }
@@ -321,6 +357,7 @@ function loadMods()
     {
         if (this.readyState == 4 && this.status == 200)
         {
+            var entries = 0;
             var newHTML = '';
             const objects = JSON.parse(this.responseText);
             for (let [i, object] of objects.entries()) 
@@ -334,7 +371,9 @@ function loadMods()
                 newHTML += '<h3>Type: '+object['modTags']+'</h3>';
                 newHTML += '<h3>Downloads: '+object['mod_downloads']+'</h3>';
                 newHTML += '</div>';
+                entries++;
             }
+            newHTML += equalizeEntries(entries);
         }
         document.getElementById("modCards").innerHTML = newHTML;
     }
@@ -373,9 +412,16 @@ function loadMapInfo(mapId)
             newHTML += '<h2>'+mapData["mapName"]+'</h2>';
             newHTML += '<h3>'+mapData["mapDescription"]+'</h3>';
             newHTML += '<h3>Author: '+mapData["mapAuthor"]+'</h3>';
+            if (mapData["mapUserDesc"] != mapData["mapDescription"] && mapData["mapUserDesc"] != null)
+            {
+                newHTML += '<h3>About: '+mapData['mapUserDesc']+'</h3>';
+            }
             newHTML += '<h3>Uploaded By: '+user["name"]+'</h3>';
             newHTML += '<h3>Uploaded: '+mapData["time_created"]+'</h3>';
-            newHTML += '<h3>Last Updated: '+mapData["time_updated"]+'</h3>';
+            if (mapData["time_updated"] != null)
+            {
+                newHTML += '<h3>Last Updated: '+mapData["time_updated"]+'</h3>';
+            }
             newHTML += '<h3>Total Objects: '+mapData["mapTotalObject"]+'</h3>';
             newHTML += '<h3>Scenario Objects: '+mapData["mapScnrObjectCount"]+'</h3>';
             newHTML += '<h3>Downloads: '+mapData["map_downloads"]+'</h3>';
@@ -418,10 +464,13 @@ function loadGametypeInfo(variantId)
             newHTML += '<h3>Author: '+variantData['variantAuthor']+'</h3>';
             newHTML += '<h3>Uploaded By: '+user["name"]+'</h3>';
             newHTML += '<h3>Uploaded: '+variantData['time_created']+'</h3>';
-            newHTML += '<h3>Last Updated: '+variantData['time_updated']+'</h3>';
-            newHTML += '<h3>Downloads: '+variantData['variant_downloads']+'</h3>';
+            if (variantData["time_updated"] != null)
+            {
+                newHTML += '<h3>Last Updated: '+variantData["time_updated"]+'</h3>';
+            }
+            newHTML += '<h3>Downloads: '/*+variantData['variant_downloads']+*/+0+'</h3>';
             newHTML += '<h3>ID: '+variantData['id']+'</h3>';
-            newHTML += '<h3>Type: '+getVariantData(variantData['variantFileName'])+'</h3>';
+            newHTML += '<h3>Tags: '+getVariantData(variantData['variantFileName'])+'</h3>';
             newHTML += '</div>';
             newHTML += '<div id="gametypeDownloadContainer">';
             newHTML += '<button id="variantDownloadButton">Download Gametype</button>';
@@ -459,7 +508,10 @@ function loadModInfo(modId)
             newHTML += '<h3>Author: '+modData['modAuthor']+'</h3>';
             newHTML += '<h3>Uploaded By: '+user["name"]+'</h3>';
             newHTML += '<h3>Uploaded: '+modData['time_created']+'</h3>';
-            newHTML += '<h3>Last Updated: '+modData['time_updated']+'</h3>';
+            if (modData["time_updated"] != null)
+            {
+                newHTML += '<h3>Last Updated: '+modData["time_updated"]+'</h3>';
+            }
             newHTML += '<h3>Downloads: '+modData['mod_downloads']+'</h3>';
             newHTML += '<h3>ID: '+modData['id']+'</h3>';
             newHTML += '<h3>Tags: '+modData['modTags']+'</h3>';
