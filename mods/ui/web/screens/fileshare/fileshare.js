@@ -421,7 +421,7 @@ function loadGametypeInfo(variantId)
             newHTML += '<h3>Last Updated: '+variantData['time_updated']+'</h3>';
             newHTML += '<h3>Downloads: '+variantData['variant_downloads']+'</h3>';
             newHTML += '<h3>ID: '+variantData['id']+'</h3>';
-            newHTML += '<h3>Tags: '+variantData['variantType']+'</h3>';
+            newHTML += '<h3>Type: '+getVariantData(variantData['variantFileName'])+'</h3>';
             newHTML += '</div>';
             newHTML += '<div id="gametypeDownloadContainer">';
             newHTML += '<button id="variantDownloadButton">Download Gametype</button>';
