@@ -395,7 +395,6 @@ div[id^='page']:target #buttonContainer
     margin: 1%;
     padding: 1%;
     width: 28.75%;
-	height: 51%;
 	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
 }
 
@@ -513,7 +512,7 @@ div[id^='page']:target #buttonContainer
 	margin-top: 4%;
 }
 
-#mapDownloadButton
+#mapDownloadButton, #variantDownloadButton, #modDownloadButton
 {
 	display: block;
     text-decoration: none;
@@ -527,28 +526,7 @@ div[id^='page']:target #buttonContainer
 	background: rgba(44, 65, 106, 0.949);
 }
 
-#mapDownloadButton:hover
-{
-	background-image: url(dew://assets/ux/buttonhover.svg);
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-#variantDownloadButton
-{
-	display: block;
-    text-decoration: none;
-	text-align: left;
-	border: none;
-	margin: 2%;
-	padding: 2%;
-	width: 96%;
-	color: rgb(152, 179, 211);
-	font-size: 2.43vh;
-	background: rgba(44, 65, 106, 0.949);
-}
-
-#variantDownloadButton:hover
+#mapDownloadButton:hover, #variantDownloadButton:hover, #modDownloadButton:hover
 {
 	background-image: url(dew://assets/ux/buttonhover.svg);
 	background-position: center;
@@ -573,23 +551,16 @@ div[id^='page']:target #buttonContainer
 }
 */
 
-#modDownloadButton
+#mapCards, #variantCards
 {
-	display: block;
-    text-decoration: none;
-	text-align: left;
-	border: none;
-	margin: 2%;
-	padding: 2%;
-	width: 96%;
-	color: rgb(152, 179, 211);
-	font-size: 2.43vh;
-	background: rgba(44, 65, 106, 0.949);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 }
 
-#modDownloadButton:hover
+#mapInfo, #gametypeInfo, #modInfo
 {
-	background-image: url(dew://assets/ux/buttonhover.svg);
-	background-position: center;
-	background-repeat: no-repeat;
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
 }
