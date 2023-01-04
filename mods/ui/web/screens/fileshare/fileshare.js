@@ -1,10 +1,11 @@
 var mapName = "mainmenu";
 var tabIndex = 0;
 var activePage;
-var subPages = ['#page4','#page5','#page6'];
+var subPages = ['#page5','#page6','#page7','#page8'];
 dew.command('bind F10 game.showscreen fileshare');
 loadMaps();
 loadVariants();
+loadPrefabs();
 loadMods();
 
 dew.on("show", function(e) {
@@ -69,6 +70,7 @@ $(document).ready(function(){
         $('.tabs li').removeClass('selected');
         $(this).parent().addClass('selected');
         activePage = e.target.hash;
+        unloadData();
     });
 
     $('#cancelButton').off('click').on('click', function(e){
@@ -148,22 +150,28 @@ function switchPage(pageNumber){
 
 function cancelButton()
 {   
-    if (window.location.hash == '#page4')
+    if (window.location.hash == '#page5')
     {
         $('#cancelButton').html('Close');
         switchPage(1);
         unloadData();
     }
-    else if (window.location.hash == '#page5')
+    else if (window.location.hash == '#page6')
     {
         $('#cancelButton').html('Close');
         switchPage(2);
         unloadData();
     } 
-    else if (window.location.hash == '#page6')
+    else if (window.location.hash == '#page7')
     {
         $('#cancelButton').html('Close');
         switchPage(3);
+        unloadData();
+    }
+    else if (window.location.hash == '#page8')
+    {
+        $('#cancelButton').html('Close');
+        switchPage(4);
         unloadData();
     }
     else
@@ -281,7 +289,8 @@ function unloadData()
 {
     newHTML = '';
     document.getElementById("mapInfo").innerHTML = newHTML;
-    document.getElementById("gametypeInfo").innerHTML = newHTML;
+    document.getElementById("variantInfo").innerHTML = newHTML;
+    document.getElementById("prefabInfo").innerHTML = newHTML;
     document.getElementById("modInfo").innerHTML = newHTML;
 }
 
@@ -299,7 +308,7 @@ function loadMaps()
             const objects = JSON.parse(this.responseText);
             for (let [i, object] of objects.entries()) 
             {
-                newHTML += '<div id="itemBackground" onclick="switchPage(4);loadMapInfo('+object['id']+');">';
+                newHTML += '<div id="itemBackground" onclick="switchPage(5);loadMapInfo('+object['id']+');">';
                 newHTML += '<div id="imageContainer">';
                 newHTML += '<img src="https://api.zgaf.io/static/maps/'+object['id']+'/0" alt="memes">';
                 newHTML += '</div>';
@@ -311,6 +320,25 @@ function loadMaps()
                 entries++;
             }
             newHTML += equalizeEntries(entries);
+
+            if (objects == null)
+            {
+                newHTML = '';
+                newHTML += '<div id="emptyBackground">';
+                newHTML += '<div id="emptyContainer">';
+                newHTML += '<h2>No Maps Found</h2>';
+                newHTML += '</div>';
+                newHTML += '</div>';
+            }
+        }
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>Unable to Connect to Server</h2>';
+            newHTML += '</div>';
+            newHTML += '</div>';
         }
         document.getElementById("mapCards").innerHTML = newHTML;
     }
@@ -330,20 +358,90 @@ function loadVariants()
             const objects = JSON.parse(this.responseText);
             for (let [i, object] of objects.entries()) 
             {
-                newHTML += '<div id="itemBackground" onclick="switchPage(5);loadGametypeInfo('+object['id']+');">';
+                newHTML += '<div id="itemBackground" onclick="switchPage(6);loadVariantInfo('+object['id']+');">';
                 newHTML += '<div id="imageContainer">';
                 newHTML += '<img src="'+getVariantImage(object['variantFileName'])+'" alt="memes">';
                 newHTML += '</div>';
                 newHTML += '<h2>'+object['variantName']+'</h2>';
                 newHTML += '<h3>Author: '+object['variantAuthor']+'</h3>';
                 newHTML += '<h3>Type: '+getVariantData(object['variantFileName'])+'</h3>';
-                newHTML += '<h3>Downloads: '/*+object['variant_downloads']+*/+0+'</h3>';
+                newHTML += '<h3>Downloads: '+object['downloads']+'</h3>';
                 newHTML += '</div>';
                 entries++;  
             }
             newHTML += equalizeEntries(entries);
+
+            if (objects == null)
+            {
+                newHTML = '';
+                newHTML += '<div id="emptyBackground">';
+                newHTML += '<div id="emptyContainer">';
+                newHTML += '<h2>No Variants Found</h2>';
+                newHTML += '</div>';
+                newHTML += '</div>';
+            }
+        }
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>Unable to Connect to Server</h2>';
+            newHTML += '</div>';
+            newHTML += '</div>';
         }
         document.getElementById("variantCards").innerHTML = newHTML;
+    }
+}
+
+//when buckyUwU adds prefabs to the API
+function loadPrefabs()
+{
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("GET", "https://api.zgaf.io/api_v1/prefabs/");
+    xhttp.send();
+    xhttp.onreadystatechange = function()
+    {
+        if (this.readyState == 4 && this.status == 200)
+        {
+            var entries = 0;
+            var newHTML = '';
+            const objects = JSON.parse(this.responseText);
+            for (let [i, object] of objects.entries()) 
+            {
+                newHTML += '<div id="itemBackground" onclick="switchPage(7);loadPrefabInfo('+object['id']+');">';
+                newHTML += '<div id="imageContainer">';
+                newHTML += '<img src="https://api.zgaf.io/static/prefabs/'+object['id']+'/0" alt="memes">';
+                newHTML += '</div>';
+                newHTML += '<h2>'+object['prefabName']+'</h2>';
+                newHTML += '<h3>Author: '+object['prefabAuthor']+'</h3>';
+                newHTML += '<h3>Type: '+object['prefabTags']+'</h3>';
+                newHTML += '<h3>Downloads: '+object['prefab_downloads']+'</h3>';
+                newHTML += '</div>';
+                entries++;
+            }
+            newHTML += equalizeEntries(entries);
+
+            if (objects == null)
+            {
+                newHTML = '';
+                newHTML += '<div id="emptyBackground">';
+                newHTML += '<div id="emptyContainer">';
+                newHTML += '<h2>No Prefabs Found</h2>';
+                newHTML += '</div>';
+                newHTML += '</div>';
+            }
+        }
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>Unable to Connect to Server</h2>';
+            newHTML += '</div>';
+            newHTML += '</div>';
+        }
+        document.getElementById("prefabCards").innerHTML = newHTML;     
     }
 }
 
@@ -362,7 +460,7 @@ function loadMods()
             const objects = JSON.parse(this.responseText);
             for (let [i, object] of objects.entries()) 
             {
-                newHTML += '<div id="itemBackground" onclick="switchPage(6)">';
+                newHTML += '<div id="itemBackground" onclick="switchPage(8);loadModInfo('+object['id']+');">';
                 newHTML += '<div id="imageContainer">';
                 newHTML += '<img src="https://api.zgaf.io/static/mods/'+object['id']+'/0" alt="memes">';
                 newHTML += '</div>';
@@ -374,9 +472,39 @@ function loadMods()
                 entries++;
             }
             newHTML += equalizeEntries(entries);
+
+            if (objects == null)
+            {
+                newHTML = '';
+                newHTML += '<div id="emptyBackground">';
+                newHTML += '<div id="emptyContainer">';
+                newHTML += '<h2>No Mods Found</h2>';
+                newHTML += '</div>';
+                newHTML += '</div>';
+            }
+        }
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>Unable to Connect to Server</h2>';
+            newHTML += '</div>';
+            newHTML += '</div>';
         }
         document.getElementById("modCards").innerHTML = newHTML;
     }
+}
+
+function generateLoadingScreen(info)
+{
+    newHTML = '';
+    newHTML += '<div id="emptyBackground">';
+    newHTML += '<div id="emptyContainer">';
+    newHTML += '<h2>Loading</h2>';
+    newHTML += '</div>';
+    newHTML += '</div>';
+    document.getElementById(info).innerHTML = newHTML;    
 }
 
 function getUser(userId)
@@ -391,6 +519,8 @@ function getUser(userId)
 
 function loadMapInfo(mapId)
 {
+    generateLoadingScreen("mapInfo");
+
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "https://api.zgaf.io/api_v1/maps/" + mapId);
     xmlHttp.send();
@@ -412,7 +542,7 @@ function loadMapInfo(mapId)
             newHTML += '<h2>'+mapData["mapName"]+'</h2>';
             newHTML += '<h3>'+mapData["mapDescription"]+'</h3>';
             newHTML += '<h3>Author: '+mapData["mapAuthor"]+'</h3>';
-            if (mapData["mapUserDesc"] != mapData["mapDescription"] && mapData["mapUserDesc"] != null)
+            if (mapData["mapUserDesc"] != mapData["mapDescription"] && mapData["mapUserDesc"] != mapData["mapName"] && mapData["mapUserDesc"] != null)
             {
                 newHTML += '<h3>About: '+mapData['mapUserDesc']+'</h3>';
             }
@@ -430,17 +560,35 @@ function loadMapInfo(mapId)
             newHTML += '</div>';
             newHTML += '<div id="mapDownloadContainer">';
             newHTML += '<button id="mapDownloadButton">Download Map</button>';
-            newHTML += '<button id="variantDownloadButton">Download Gametype</button>';
+            if (mapData["variant_id"] == null)
+            {
+                newHTML += '<button id="disabledVariantDownloadButton">Download Variant</button>';
+            }
+            else
+            {
+                newHTML += '<button id="variantDownloadButton">Download Variant</button>';
+            }
             //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
             //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
+            newHTML += '</div>';
+        }
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>An Error Occured While Attempting to Retrieve Map Data</h2>';
+            newHTML += '</div>';
             newHTML += '</div>';
         }
         document.getElementById("mapInfo").innerHTML = newHTML;
     }
 }
 
-function loadGametypeInfo(variantId)
+function loadVariantInfo(variantId)
 {
+    generateLoadingScreen("variantInfo");
+
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "https://api.zgaf.io/api_v1/variants/" + variantId);
     xmlHttp.send();
@@ -453,12 +601,12 @@ function loadGametypeInfo(variantId)
             const variantData = JSON.parse(xmlHttp.responseText);
             user = getUser(variantData["owner_id"]);
 
-            newHTML += '<div id="gametypeImageBackground">';
-            newHTML += '<div id="gametypeImageContainer">';
+            newHTML += '<div id="variantImageBackground">';
+            newHTML += '<div id="variantImageContainer">';
             newHTML += '<img src="'+getVariantImage(variantData['variantFileName'])+'" alt="memes">';
             newHTML += '</div>';
             newHTML += '</div>';
-            newHTML += '<div id="gametypeInfoContainer">';
+            newHTML += '<div id="variantInfoContainer">';
             newHTML += '<h2>'+variantData['variantName']+'</h2>';
             newHTML += '<h3>'+variantData['variantDescription']+'</h3>';
             newHTML += '<h3>Author: '+variantData['variantAuthor']+'</h3>';
@@ -468,23 +616,90 @@ function loadGametypeInfo(variantId)
             {
                 newHTML += '<h3>Last Updated: '+variantData["time_updated"]+'</h3>';
             }
-            newHTML += '<h3>Downloads: '/*+variantData['variant_downloads']+*/+0+'</h3>';
+            newHTML += '<h3>Downloads: '+variantData['downloads']+'</h3>';
             newHTML += '<h3>ID: '+variantData['id']+'</h3>';
             newHTML += '<h3>Tags: '+getVariantData(variantData['variantFileName'])+'</h3>';
             newHTML += '</div>';
-            newHTML += '<div id="gametypeDownloadContainer">';
-            newHTML += '<button id="variantDownloadButton">Download Gametype</button>';
+            newHTML += '<div id="variantDownloadContainer">';
+            newHTML += '<button id="variantDownloadButton">Download Variant</button>';
             //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
             //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
             newHTML += '</div>';
         }
-        document.getElementById("gametypeInfo").innerHTML = newHTML;
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>An Error Occured While Attempting to Retrieve Variant Data</h2>';
+            newHTML += '</div>';
+            newHTML += '</div>';
+        }
+        document.getElementById("variantInfo").innerHTML = newHTML;
+    }
+}
+
+//again, when buckyUwU adds prefabs to the API
+function loadPrefabInfo(prefabId)
+{
+    generateLoadingScreen("prefabInfo");
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "https://api.zgaf.io/api_v1/prefabs/" + prefabId);
+    xmlHttp.send();
+
+    xmlHttp.onreadystatechange = function()
+    {
+        if (this.readyState == 4 && this.status == 200)
+        {
+            var newHTML = '';
+            const prefabData = JSON.parse(xmlHttp.responseText);
+            user = getUser(prefabData["owner_id"]);
+
+            newHTML += '<div id="prefabImageBackground">';
+            newHTML += '<div id="prefabImageContainer">';
+            newHTML += '<img src="https://api.zgaf.io/static/prefabs/'+prefabId+'/0" alt="memes">';
+            newHTML += '</div>';
+            newHTML += '</div>';
+            newHTML += '<div id="prefabInfoContainer">';
+            newHTML += '<h2>'+prefabData['prefabName']+'</h2>';
+            newHTML += '<h3>'+prefabData['prefabDescription']+'</h3>';
+            newHTML += '<h3>Author: '+prefabData['prefabAuthor']+'</h3>';
+            newHTML += '<h3>Uploaded By: '+user["name"]+'</h3>';
+            newHTML += '<h3>Uploaded: '+prefabData['time_created']+'</h3>';
+            if (prefabData["time_updated"] != null)
+            {
+                newHTML += '<h3>Last Updated: '+prefabData["time_updated"]+'</h3>';
+            }
+            newHTML += '<h3>Downloads: '+prefabData['prefab_downloads']+'</h3>';
+            newHTML += '<h3>ID: '+prefabData['id']+'</h3>';
+            newHTML += '<h3>Tags: '+prefabData['prefabTags']+'</h3>';
+            newHTML += '</div>';
+            newHTML += '<div id="prefabDownloadContainer">';
+            newHTML += '<button id="prefabDownloadButton">Download Prefab</button>';
+            //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
+            //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
+            newHTML += '</div>';
+
+        }
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>An Error Occured While Attempting to Retrieve Prefab Data</h2>';
+            newHTML += '</div>';
+            newHTML += '</div>';
+        }
+        document.getElementById("prefabInfo").innerHTML = newHTML;
     }
 }
 
 //again, when buckyUwU adds mods to the API 
 function loadModInfo(modId)
 {
+    generateLoadingScreen("modInfo");
+
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "https://api.zgaf.io/api_v1/mods/" + modId);
     xmlHttp.send();
@@ -520,6 +735,15 @@ function loadModInfo(modId)
             newHTML += '<button id="modDownloadButton">Download Mod</button>';
             //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
             //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
+            newHTML += '</div>';
+        }
+        else
+        {
+            newHTML = '';
+            newHTML += '<div id="emptyBackground">';
+            newHTML += '<div id="emptyContainer">';
+            newHTML += '<h2>An Error Occured While Attempting to Retrieve Mod Data</h2>';
+            newHTML += '</div>';
             newHTML += '</div>';
         }
         document.getElementById("modInfo").innerHTML = newHTML;

@@ -433,7 +433,7 @@ div[id^='page']:target #buttonContainer
 #itemBackground h2
 {
 	margin: 1%;
-	font-size: 1.93vh;
+	font-size: 2.23vh;
 }
 
 #itemBackground h3
@@ -447,7 +447,7 @@ div[id^='page']:target #buttonContainer
 
 
 
-#mapBackground, #gametypeBackground, #modBackground
+#mapBackground, #variantBackground, #prefabBackground, #modBackground
 {
 	display: flex;
 	flex-wrap: wrap;
@@ -458,7 +458,7 @@ div[id^='page']:target #buttonContainer
 	background: -webkit-linear-gradient( -90deg, rgba(18,27,47,0.94902) 0%, rgba(16,26,46,0.9) 20%, rgba(16,26,46,0.90196) 20%, rgba(4,11,25,0.85098) 100%);
 }
 
-#mapImageBackground, #gametypeImageBackground, #modImageBackground
+#mapImageBackground, #variantImageBackground, #prefabImageBackground, #modImageBackground
 {
 	float: left;
     margin: 1%;
@@ -467,14 +467,14 @@ div[id^='page']:target #buttonContainer
 	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
 }
 
-#mapImageContainer, #gametypeImageContainer, #modImageContainer
+#mapImageContainer, #variantImageContainer, #prefabImageContainer, #modImageContainer
 {
 	display: block;
     position: relative;
     padding-top: 56.25%;
 }
 
-#mapImageContainer img, #gametypeImageContainer img, #modImageContainer img
+#mapImageContainer img, #variantImageContainer img, #prefabImageContainer img, #modImageContainer img
 {
 	position: absolute;
     top: 0;
@@ -485,7 +485,7 @@ div[id^='page']:target #buttonContainer
     object-position: left;
 }
 
-#mapInfoContainer, #gametypeInfoContainer, #modInfoContainer
+#mapInfoContainer, #variantInfoContainer, #prefabInfoContainer, #modInfoContainer
 {
     padding: 1%;
 	margin: 1%;
@@ -493,19 +493,19 @@ div[id^='page']:target #buttonContainer
 	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
 }
 
-#mapInfoContainer h2, #gametypeInfoContainer h2, #modInfoContainer h2
+#mapInfoContainer h2, #variantInfoContainer h2, #prefabInfoContainer h2, #modInfoContainer h2
 {
 	font-size: 2.93vh;
 	margin: 2%;
 }
 
-#mapInfoContainer h3, #gametypeInfoContainer h3, #modInfoContainer h3
+#mapInfoContainer h3, #variantInfoContainer h3, #prefabInfoContainer h3, #modInfoContainer h3
 {
 	font-size: 2.43vh;
 	margin: 2%;
 }
 
-#mapDownloadContainer, #gametypeDownloadContainer, #modDownloadContainer
+#mapDownloadContainer, #variantDownloadContainer, #prefabDownloadContainer, #modDownloadContainer
 {
     padding: 1%;
 	margin: 1%;
@@ -513,14 +513,14 @@ div[id^='page']:target #buttonContainer
 	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
 }
 
-#mapDownloadContainer h3, #gametypeDownloadContainer h3, #modDownloadContainer h3
+#mapDownloadContainer h3, #variantDownloadContainer h3, #prefabDownloadContainer h3, #modDownloadContainer h3
 {
 	font-size: 2.43vh;
 	margin: 2%;
 	margin-top: 4%;
 }
 
-#mapDownloadButton, #variantDownloadButton, #modDownloadButton
+#mapDownloadButton, #variantDownloadButton, #prefabDownloadButton, #modDownloadButton
 {
 	display: block;
     text-decoration: none;
@@ -534,14 +534,13 @@ div[id^='page']:target #buttonContainer
 	background: rgba(44, 65, 106, 0.949);
 }
 
-#mapDownloadButton:hover, #variantDownloadButton:hover, #modDownloadButton:hover
+#mapDownloadButton:hover, #variantDownloadButton:hover, #prefabDownloadButton:hover, #modDownloadButton:hover
 {
 	background-image: url(dew://assets/ux/buttonhover.svg);
 	background-position: center;
 	background-repeat: no-repeat;
 }
 
-/* Used for when a given map does not have a matching variant (gametype)
 #disabledVariantDownloadButton
 {
 	opacity: 0.4;
@@ -557,18 +556,38 @@ div[id^='page']:target #buttonContainer
 	font-size: 2.43vh;
 	background: rgba(44, 65, 106, 0.949);
 }
-*/
 
-#mapCards, #variantCards
+#mapCards, #variantCards, #prefabCards, #modCards
 {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
+	width: 100%;
 }
 
-#mapInfo, #gametypeInfo, #modInfo
+#mapInfo, #variantInfo, #prefabInfo, #modInfo
 {
 	display: flex;
 	flex-wrap: wrap;
 	width: 100%;
+}
+
+#emptyBackground
+{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+#emptyContainer
+{
+	width: 100%;
+	text-align: center;
+	height: 97.5%;
+}
+
+#emptyContainer h2
+{
+	font-size: 3.5vh;
+	color: rgb(152, 179, 211);
 }
