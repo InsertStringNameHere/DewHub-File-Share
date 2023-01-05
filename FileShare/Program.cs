@@ -53,7 +53,7 @@ namespace FileShare
             switch (fileType) 
             {
                 case "maps":
-                    fileUrl = "https://api.zgaf.io/api_v1/maps/"+data["mapName"]+"/file";
+                    fileUrl = "https://api.zgaf.io/api_v1/maps/"+data["id"]+"/file";
                     fileDirectory = "maps/" + data["mapName"] + "/";
                     fileName = "sandbox.map";
                 break;
