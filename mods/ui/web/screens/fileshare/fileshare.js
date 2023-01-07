@@ -416,7 +416,7 @@ function loadPrefabs()
                 newHTML += '<h2>'+object['prefabName']+'</h2>';
                 newHTML += '<h3>Author: '+object['prefabAuthor']+'</h3>';
                 newHTML += '<h3>Type: '+object['prefabTags']+'</h3>';
-                newHTML += '<h3>Downloads: '+object['prefab_downloads']+'</h3>';
+                newHTML += '<h3>Downloads: '+object['downloads']+'</h3>';
                 newHTML += '</div>';
                 entries++;
             }
@@ -671,7 +671,7 @@ function loadPrefabInfo(prefabId)
             {
                 newHTML += '<h3>Last Updated: '+prefabData["time_updated"]+'</h3>';
             }
-            newHTML += '<h3>Downloads: '+prefabData['prefab_downloads']+'</h3>';
+            newHTML += '<h3>Downloads: '+prefabData['downloads']+'</h3>';
             newHTML += '<h3>ID: '+prefabData['id']+'</h3>';
             newHTML += '<h3>Tags: '+prefabData['prefabTags']+'</h3>';
             newHTML += '</div>';
