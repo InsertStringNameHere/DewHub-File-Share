@@ -394,7 +394,6 @@ function loadVariants()
     }
 }
 
-//when buckyUwU adds prefabs to the API
 function loadPrefabs()
 {
     const xhttp = new XMLHttpRequest();
@@ -639,7 +638,6 @@ function loadVariantInfo(variantId)
     }
 }
 
-//again, when buckyUwU adds prefabs to the API
 function loadPrefabInfo(prefabId)
 {
     generateLoadingScreen("prefabInfo");
