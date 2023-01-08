@@ -2,6 +2,10 @@ var mapName = "mainmenu";
 var tabIndex = 0;
 var activePage;
 var subPages = ['#page5','#page6','#page7','#page8'];
+var fileType = "";
+var fileName = "";
+var fileId = "";
+var entryType = "";
 dew.command('bind F10 game.showscreen fileshare');
 loadMaps();
 loadVariants();
@@ -516,6 +520,33 @@ function getUser(userId)
     return user
 }
 
+function downloadFile(id)
+{
+    type = fileType;
+    entryName = fileName;
+    file = fileId;
+
+    switch (type)
+    {
+        case "map":
+            entryType = "maps";
+        break;
+        case "variant":
+            entryType = "variants";
+        break;
+        case "prefab":
+            entryType = "prefabs";
+        break;
+        case "mod":
+            entryType = "mods";
+        break;
+    }
+
+    input = 'Fileshare.DownloadFile https://api.zgaf.io/api_v1/'+entryType+'/'+id+'/file '+type+' "'+entryName+'" "'+file+'"';
+
+    dew.command(input);
+}
+
 function loadMapInfo(mapId)
 {
     generateLoadingScreen("mapInfo");
@@ -531,6 +562,10 @@ function loadMapInfo(mapId)
             var newHTML = '';
             const mapData = JSON.parse(xmlHttp.responseText);
             user = getUser(mapData["owner_id"]);
+
+            fileType = "map";
+            fileName = mapData["mapName"];
+            fileId = "sandbox.map";
 
             newHTML += '<div id="mapImageBackground">'; 
             newHTML += '<div id="mapImageContainer">';
@@ -558,7 +593,7 @@ function loadMapInfo(mapId)
             newHTML += '<h3>Tags: '+mapData["mapTags"]+'</h3>';
             newHTML += '</div>';
             newHTML += '<div id="mapDownloadContainer">';
-            newHTML += '<button id="mapDownloadButton">Download Map</button>';
+            newHTML += '<button id="mapDownloadButton" onclick="downloadFile('+mapData["id"]+')">Download Map</button>';
             if (mapData["variant_id"] == null)
             {
                 newHTML += '<button id="disabledVariantDownloadButton">Download Variant</button>';
@@ -600,6 +635,10 @@ function loadVariantInfo(variantId)
             const variantData = JSON.parse(xmlHttp.responseText);
             user = getUser(variantData["owner_id"]);
 
+            fileType = "variant";
+            fileName = variantData["variantName"];
+            fileId = variantData['variantFileName'];
+
             newHTML += '<div id="variantImageBackground">';
             newHTML += '<div id="variantImageContainer">';
             newHTML += '<img src="'+getVariantImage(variantData['variantFileName'])+'" alt="memes">';
@@ -620,7 +659,7 @@ function loadVariantInfo(variantId)
             newHTML += '<h3>Tags: '+getVariantData(variantData['variantFileName'])+'</h3>';
             newHTML += '</div>';
             newHTML += '<div id="variantDownloadContainer">';
-            newHTML += '<button id="variantDownloadButton">Download Variant</button>';
+            newHTML += '<button id="variantDownloadButton" onclick="downloadFile('+variantData["id"]+')">Download Variant</button>';
             //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
             //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
             newHTML += '</div>';
@@ -654,6 +693,10 @@ function loadPrefabInfo(prefabId)
             const prefabData = JSON.parse(xmlHttp.responseText);
             user = getUser(prefabData["owner_id"]);
 
+            fileType = "prefab";
+            fileName = prefabData["prefabName"];
+            fileId = prefabData['prefabFileName'];
+
             newHTML += '<div id="prefabImageBackground">';
             newHTML += '<div id="prefabImageContainer">';
             newHTML += '<img src="https://api.zgaf.io/static/prefabs/'+prefabId+'/0" alt="memes">';
@@ -674,7 +717,7 @@ function loadPrefabInfo(prefabId)
             newHTML += '<h3>Tags: '+prefabData['prefabTags']+'</h3>';
             newHTML += '</div>';
             newHTML += '<div id="prefabDownloadContainer">';
-            newHTML += '<button id="prefabDownloadButton">Download Prefab</button>';
+            newHTML += '<button id="prefabDownloadButton" onclick="downloadFile('+prefabData["id"]+')">Download Prefab</button>';
             //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
             //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
             newHTML += '</div>';
@@ -710,6 +753,10 @@ function loadModInfo(modId)
             const modData = JSON.parse(xmlHttp.responseText);
             user = getUser(modData["owner_id"]);
 
+            fileType = "mod";
+            fileName = modData["modName"];
+            fileId = modData['modFileName'];
+
             newHTML += '<div id="modImageBackground">';
             newHTML += '<div id="modImageContainer">';
             newHTML += '<img src="https://api.zgaf.io/static/mods/'+modId+'/0" alt="memes">';
@@ -730,7 +777,7 @@ function loadModInfo(modId)
             newHTML += '<h3>Tags: '+modData['modTags']+'</h3>';
             newHTML += '</div>';
             newHTML += '<div id="modDownloadContainer">';
-            newHTML += '<button id="modDownloadButton">Download Mod</button>';
+            newHTML += '<button id="modDownloadButton" onclick="download('+modData["id"]+')">Download Mod</button>';
             //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
             //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
             newHTML += '</div>';
