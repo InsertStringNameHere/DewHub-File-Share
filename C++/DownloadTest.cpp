@@ -51,5 +51,12 @@ int main()
 		file.close();
 	}
 
+	size_t isZipFile = savepath.find(".zip");
+
+	if (isZipFile != std::string::npos)
+	{
+		std::cout << "File Needs to Be Unzipped Manually" << std::endl;
+	}
+
     return 0;
 }
