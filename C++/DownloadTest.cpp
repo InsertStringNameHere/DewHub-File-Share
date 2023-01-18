@@ -20,16 +20,17 @@ int main()
 	std::string url;
 	std::string fileType;
 	std::string name;
-	std::string fileName = "Forerunner Prefab Pack.zip";
+	std::string fileName;
 
 	std::cout << "Input URL: " << std::endl;
 	std::cin >> url;
 	std::cout << "Input File Type: " << std::endl;
 	std::cin >> fileType;
 	std::cout << "Input Item Name: " << std::endl;
-	std::cin >> name;
+	std::cin.ignore();
+	std::getline(std::cin, name);
 	std::cout << "Input File Name: " << std::endl;
-	//std::cin >> fileName;
+	std::getline(std::cin, fileName);
 
 	std::cout << "TESTING INPUTS:" << std::endl;
 	std::cout << url << std::endl;
@@ -83,7 +84,7 @@ int main()
 	curl = curl_easy_init();
 	if (curl)
 	{
-		static std::ofstream file(savepath, std::ios::binary);
+		std::ofstream file(savepath, std::ios::binary);
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_to_file);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &file);
