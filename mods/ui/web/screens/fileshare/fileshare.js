@@ -2,10 +2,13 @@ var mapName = "mainmenu";
 var tabIndex = 0;
 var activePage;
 var subPages = ['#page5','#page6','#page7','#page8'];
-var fileType = "";
-var fileName = "";
-var fileId = "";
+var downloadType = "";
+var downloadName = "";
+var downloadFileName = "";
 var entryType = "";
+var dependencyType = "";
+var dependencyName = "";
+var dependencyFileName = "";
 dew.command('bind F10 game.showscreen fileshare');
 loadMaps();
 loadVariants();
@@ -74,7 +77,7 @@ $(document).ready(function(){
         $('.tabs li').removeClass('selected');
         $(this).parent().addClass('selected');
         activePage = e.target.hash;
-        unloadData();
+        clearData();
     });
 
     $('#cancelButton').off('click').on('click', function(e){
@@ -158,25 +161,25 @@ function cancelButton()
     {
         $('#cancelButton').html('Close');
         switchPage(1);
-        unloadData();
+        clearData();
     }
     else if (window.location.hash == '#page6')
     {
         $('#cancelButton').html('Close');
         switchPage(2);
-        unloadData();
+        clearData();
     } 
     else if (window.location.hash == '#page7')
     {
         $('#cancelButton').html('Close');
         switchPage(3);
-        unloadData();
+        clearData();
     }
     else if (window.location.hash == '#page8')
     {
         $('#cancelButton').html('Close');
         switchPage(4);
-        unloadData();
+        clearData();
     }
     else
     {
@@ -289,7 +292,7 @@ function equalizeEntries(count)
     return newHTML;
 }
 
-function unloadData()
+function clearData()
 {
     newHTML = '';
     document.getElementById("mapInfo").innerHTML = newHTML;
@@ -310,7 +313,7 @@ function loadMaps()
             var entries = 0;
             var newHTML = '';
             const objects = JSON.parse(this.responseText);
-            for (let [i, object] of objects.entries()) 
+            for (let [i, object] of objects["items"].entries()) 
             {
                 newHTML += '<div id="itemBackground" onclick="switchPage(5);loadMapInfo('+object['id']+');">';
                 newHTML += '<div id="imageContainer">';
@@ -360,7 +363,7 @@ function loadVariants()
             var entries = 0;
             var newHTML = '';
             const objects = JSON.parse(this.responseText);
-            for (let [i, object] of objects.entries()) 
+            for (let [i, object] of objects["items"].entries()) 
             {
                 newHTML += '<div id="itemBackground" onclick="switchPage(6);loadVariantInfo('+object['id']+');">';
                 newHTML += '<div id="imageContainer">';
@@ -401,7 +404,7 @@ function loadVariants()
 function loadPrefabs()
 {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "https://api.zgaf.io/api_v1/prefabs/");
+    xhttp.open("GET", "https://api.zgaf.io/api_v1/prefabs");
     xhttp.send();
     xhttp.onreadystatechange = function()
     {
@@ -410,7 +413,7 @@ function loadPrefabs()
             var entries = 0;
             var newHTML = '';
             const objects = JSON.parse(this.responseText);
-            for (let [i, object] of objects.entries()) 
+            for (let [i, object] of objects["items"].entries()) 
             {
                 newHTML += '<div id="itemBackground" onclick="switchPage(7);loadPrefabInfo('+object['id']+');">';
                 newHTML += '<div id="imageContainer">';
@@ -461,7 +464,7 @@ function loadMods()
             var entries = 0;
             var newHTML = '';
             const objects = JSON.parse(this.responseText);
-            for (let [i, object] of objects.entries()) 
+            for (let [i, object] of objects["items"].entries()) 
             {
                 newHTML += '<div id="itemBackground" onclick="switchPage(8);loadModInfo('+object['id']+');">';
                 newHTML += '<div id="imageContainer">';
@@ -522,9 +525,9 @@ function getUser(userId)
 
 function downloadFile(id)
 {
-    type = fileType;
-    entryName = fileName;
-    file = fileId;
+    type = downloadType;
+    entryName = downloadName;
+    file = downloadFileName;
 
     switch (type)
     {
@@ -547,6 +550,18 @@ function downloadFile(id)
     dew.command(input);
 }
 
+function downloadDependency(id)
+{
+    type = dependencyType;
+    entryName = dependencyName;
+    file = dependencyFileName;
+    entryType = "maps";
+
+    input = 'Fileshare.DownloadFile https://api.zgaf.io/api_v1/'+entryType+'/'+id+'/variant/file '+type+' "'+entryName+'" "'+file+'"';
+
+    dew.command(input);
+}
+
 function loadMapInfo(mapId)
 {
     generateLoadingScreen("mapInfo");
@@ -554,6 +569,22 @@ function loadMapInfo(mapId)
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", "https://api.zgaf.io/api_v1/maps/" + mapId);
     xmlHttp.send();
+
+    var newXmlHttp = new XMLHttpRequest();
+    newXmlHttp.open( "GET", "https://api.zgaf.io/api_v1/maps/" + mapId + "/variant");
+    newXmlHttp.send();
+
+    newXmlHttp.onreadystatechange = function()
+    {
+        if (this.readyState == 4 && this.status == 200)
+        {
+            const variantData = JSON.parse(newXmlHttp.responseText);
+
+            dependencyType = "variant";
+            dependencyName = variantData["variantName"];
+            dependencyFileName = variantData['variantFileName'];
+        }
+    } 
 
     xmlHttp.onreadystatechange = function() 
     {
@@ -563,9 +594,9 @@ function loadMapInfo(mapId)
             const mapData = JSON.parse(xmlHttp.responseText);
             user = getUser(mapData["owner_id"]);
 
-            fileType = "map";
-            fileName = mapData["mapName"];
-            fileId = "sandbox.map";
+            downloadType = "map";
+            downloadName = mapData["mapName"];
+            downloadFileName = "sandbox.map";
 
             newHTML += '<div id="mapImageBackground">'; 
             newHTML += '<div id="mapImageContainer">';
@@ -600,7 +631,7 @@ function loadMapInfo(mapId)
             }
             else
             {
-                newHTML += '<button id="variantDownloadButton">Download Variant</button>';
+                newHTML += '<button id="variantDownloadButton" onclick="downloadDependency('+mapData["id"]+')">Download Variant</button>';
             }
             //newHTML += '<h3>(Insert Progress Bar Here)</h3>';
             //newHTML += '<h3>Done! (Completion or Error Message?)</h3>';
@@ -635,9 +666,9 @@ function loadVariantInfo(variantId)
             const variantData = JSON.parse(xmlHttp.responseText);
             user = getUser(variantData["owner_id"]);
 
-            fileType = "variant";
-            fileName = variantData["variantName"];
-            fileId = variantData['variantFileName'];
+            downloadType = "variant";
+            downloadName = variantData["variantName"];
+            downloadFileName = variantData['variantFileName'];
 
             newHTML += '<div id="variantImageBackground">';
             newHTML += '<div id="variantImageContainer">';
@@ -693,9 +724,9 @@ function loadPrefabInfo(prefabId)
             const prefabData = JSON.parse(xmlHttp.responseText);
             user = getUser(prefabData["owner_id"]);
 
-            fileType = "prefab";
-            fileName = prefabData["prefabName"];
-            fileId = prefabData['prefabFileName'];
+            downloadType = "prefab";
+            downloadName = prefabData["prefabName"];
+            downloadFileName = prefabData['prefabFileName'];
 
             newHTML += '<div id="prefabImageBackground">';
             newHTML += '<div id="prefabImageContainer">';
@@ -753,9 +784,9 @@ function loadModInfo(modId)
             const modData = JSON.parse(xmlHttp.responseText);
             user = getUser(modData["owner_id"]);
 
-            fileType = "mod";
-            fileName = modData["modName"];
-            fileId = modData['modFileName'];
+            downloadType = "mod";
+            downloadName= modData["modName"];
+            downloadFileName = modData['modFileName'];
 
             newHTML += '<div id="modImageBackground">';
             newHTML += '<div id="modImageContainer">';
