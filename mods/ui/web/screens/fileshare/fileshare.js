@@ -301,10 +301,10 @@ function clearData()
     document.getElementById("modInfo").innerHTML = newHTML;
 }
 
-function loadMaps()
+function loadMaps(page = 1)
 {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "https://api.zgaf.io/api_v1/maps/");
+    xhttp.open("GET", "https://api.zgaf.io/api_v1/maps/?page=" + page + "&size=21");
     xhttp.send();
     xhttp.onreadystatechange = function() 
     {
@@ -328,17 +328,71 @@ function loadMaps()
             }
             newHTML += equalizeEntries(entries);
 
+            pages = Math.ceil(objects["total"] / objects["size"]);
+
+            if (objects["page"] > 1) 
+            {
+                prevpage = objects["page"] - 1;
+            } 
+            else 
+            {
+                prevpage = objects["page"];
+            }
+
+            if (objects["page"] < pages) 
+            {
+                nextpage = objects["page"] + 1;
+            } 
+            else 
+            {
+                nextpage = objects["page"];
+            }
+
             newHTML += '<div id="navigationBackground">';
-            newHTML += '<div id="navigationPrevious">';
-            newHTML += '<h3>Prev</h3>';
-            newHTML += '</div>';
-            newHTML += '<div id="navigationItems">';
-            newHTML += '<h3>1</h3>';
-            newHTML += '</div>';
-            newHTML += '<div id="navigationNext">';
-            newHTML += '<h3>Next</h3>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+
+            if(prevpage === objects["page"])
+            {
+                newHTML += '<div id="invalidNavigationPrevious">';
+                newHTML += '<h3>Prev</h3>';
+                newHTML += '</div>';
+            }
+            else
+            {
+                newHTML += '<div id="navigationPrevious" onclick="loadMaps('+prevpage+')">';
+                newHTML += '<h3>Prev</h3>';
+                newHTML += '</div>';
+            }
+
+            for (let i = 1; i <= pages; i++) 
+            {
+                if (objects["page"] === i)
+                {
+                    newHTML += '<div id="currentNavigationItem">';
+                    newHTML += '<h3>'+i+'</h3>';
+                    newHTML += '</div>';
+                } 
+                else 
+                {
+                    newHTML += '<div id="navigationItems" onclick="loadMaps('+i+')">';
+                    newHTML += '<h3>'+i+'</h3>';
+                    newHTML += '</div>';
+                }
+            }
+
+            if(nextpage === objects["page"])
+            {
+                newHTML += '<div id="invalidNavigationNext">';
+                newHTML += '<h3>Next</h3>';
+                newHTML += '</div>';   
+            }
+            else
+            {
+                newHTML += '<div id="navigationNext" onclick="loadMaps('+nextpage+')">';
+                newHTML += '<h3>Next</h3>'; 
+                newHTML += '</div>';  
+            }
+
+            newHTML += '</div>'; 
 
             if (objects == null)
             {
@@ -363,10 +417,10 @@ function loadMaps()
     }
 }
 
-function loadVariants()
+function loadVariants(page = 1)
 {
     const xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "https://api.zgaf.io/api_v1/variants/");
+    xhttp.open("GET", "https://api.zgaf.io/api_v1/variants/?page=" + page + "&size=21");
     xhttp.send();
     xhttp.onreadystatechange = function()
     {
@@ -389,6 +443,72 @@ function loadVariants()
                 entries++;  
             }
             newHTML += equalizeEntries(entries);
+
+            pages = Math.ceil(objects["total"] / objects["size"]);
+
+            if (objects["page"] > 1) 
+            {
+                prevpage = objects["page"] - 1;
+            } 
+            else 
+            {
+                prevpage = objects["page"];
+            }
+
+            if (objects["page"] < pages) 
+            {
+                nextpage = objects["page"] + 1;
+            } 
+            else 
+            {
+                nextpage = objects["page"];
+            }
+
+            newHTML += '<div id="navigationBackground">';
+
+            if(prevpage === objects["page"])
+            {
+                newHTML += '<div id="invalidNavigationPrevious">';
+                newHTML += '<h3>Prev</h3>';
+                newHTML += '</div>';
+            }
+            else
+            {
+                newHTML += '<div id="navigationPrevious" onclick="loadVariants('+prevpage+')">';
+                newHTML += '<h3>Prev</h3>';
+                newHTML += '</div>';
+            }
+
+            for (let i = 1; i <= pages; i++) 
+            {
+                if (objects["page"] === i)
+                {
+                    newHTML += '<div id="currentNavigationItem">';
+                    newHTML += '<h3>'+i+'</h3>';
+                    newHTML += '</div>';
+                } 
+                else 
+                {
+                    newHTML += '<div id="navigationItems" onclick="loadVariants('+i+')">';
+                    newHTML += '<h3>'+i+'</h3>';
+                    newHTML += '</div>';
+                }
+            }
+
+            if(nextpage === objects["page"])
+            {
+                newHTML += '<div id="invalidNavigationNext">';
+                newHTML += '<h3>Next</h3>';
+                newHTML += '</div>';   
+            }
+            else
+            {
+                newHTML += '<div id="navigationNext" onclick="loadVariants('+nextpage+')">';
+                newHTML += '<h3>Next</h3>';
+                newHTML += '</div>';   
+            }
+
+            newHTML += '</div>'; 
 
             if (objects == null)
             {
