@@ -328,6 +328,18 @@ function loadMaps()
             }
             newHTML += equalizeEntries(entries);
 
+            newHTML += '<div id="navigationBackground">';
+            newHTML += '<div id="navigationPrevious">';
+            newHTML += '<h3>Prev</h3>';
+            newHTML += '</div>';
+            newHTML += '<div id="navigationItems">';
+            newHTML += '<h3>1</h3>';
+            newHTML += '</div>';
+            newHTML += '<div id="navigationNext">';
+            newHTML += '<h3>Next</h3>';
+            newHTML += '</div>';
+            newHTML += '</div>';
+
             if (objects == null)
             {
                 newHTML = '';
