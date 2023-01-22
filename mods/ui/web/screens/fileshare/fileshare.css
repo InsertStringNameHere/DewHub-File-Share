@@ -449,9 +449,8 @@ div[id^='page']:target #buttonContainer
 
 #navigationBackground
 {
-	display: flex;
-	justify-content: center;
     margin: 1%;
+	overflow: hidden;
     padding: 0.5%;
     width: 100%;
 	background: -webkit-linear-gradient( -90deg, rgba(24,44,75,0.94902) 0%, rgba(24,44,75,0.9) 20%, rgba(24,44,75,0.90196) 20%, rgba(24,44,75,0.85098) 100%);
@@ -459,17 +458,19 @@ div[id^='page']:target #buttonContainer
 
 #navigationItems
 {
-	text-align: center;
+	float: left;
+    display: flex;
 	margin: 0.5%;
-	padding: 1%;
+	padding: 0.5%;
 	background: rgba(44, 65, 106, 0.949);
 }
 
 #navigationPrevious, #navigationNext
 {
-	text-align: center;
+	float: left;
+    display: flex;
 	margin: 0.5%;
-	padding: 1%;
+	padding: 0.5%;
 	background: rgba(44, 65, 106, 0.949);
 }
 
@@ -482,16 +483,17 @@ div[id^='page']:target #buttonContainer
 
 #navigationItems h3, #navigationPrevious h3, #navigationNext h3, #invalidNavigationPrevious h3, #invalidNavigationNext h3, #currentNavigationItem h3
 {
-	margin: auto;
+	margin: 0%;
 	font-size: 1.93vh;
 }
 
 #invalidNavigationPrevious, #invalidNavigationNext
 {
 	opacity: 0.4;
-	text-align: center;
+	float: left;
+    display: flex;
 	margin: 0.5%;
-	padding: 1%;
+	padding: 0.5%;
 	background: rgba(44, 65, 106, 0.949);
 }
 
@@ -499,9 +501,10 @@ div[id^='page']:target #buttonContainer
 {
 	outline-style: solid;
 	outline-width: 0.2vh;
-	text-align: center;
+	float: left;
+    display: flex;
 	margin: 0.5%;
-	padding: 1%;
+	padding: 0.5%;
 	background: rgba(44, 65, 106, 0.949);
 }
 
