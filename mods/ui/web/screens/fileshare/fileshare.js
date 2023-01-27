@@ -76,11 +76,13 @@ $(document).ready(function(){
     $('.tabs li a').off('click').on('click',function(e){
         $('.tabs li').removeClass('selected');
         $(this).parent().addClass('selected');
+        $('#cancelButton').html('Close');
         activePage = e.target.hash;
         clearData();
     });
 
     $('#cancelButton').off('click').on('click', function(e){
+        $('#cancelButton').html('Close');
         cancelButton();
     });
 
@@ -301,6 +303,163 @@ function clearData()
     document.getElementById("modInfo").innerHTML = newHTML;
 }
 
+function generateEmptyPage(type)
+{
+    switch (type)
+    {
+        case "map":
+            type = "Maps";
+        break;
+        case "variant":
+            type = "Variants";
+        break;
+        case "prefab":
+            type = "Prefabs";
+        break;
+        case "mod":
+            type = "Mods";
+        break;
+        default:
+            type = "Entries";
+        break;
+    }
+
+    newHTML = '';
+    newHTML += '<div id="emptyBackground">';
+    newHTML += '<div id="emptyContainer">';
+    newHTML += '<h2>No '+type+' Found</h2>';
+    newHTML += '</div>';
+    newHTML += '</div>';
+
+    return newHTML;
+}
+
+function generateErrorPage(type, isInfo)
+{
+    switch (type)
+    {
+        case "map":
+            type = "Map";
+        break;
+        case "variant":
+            type = "Variant";
+        break;
+        case "prefab":
+            type = "Prefab";
+        break;
+        case "mod":
+            type = "Mod";
+        break;
+        default:
+            type = "Entry";
+        break;
+    }
+
+    newHTML = '';
+
+    if (isInfo)
+    {
+        newHTML += '<div id="emptyBackground">';
+        newHTML += '<div id="emptyContainer">';
+        newHTML += '<h2>An Error Occured While Attempting to Retrieve '+type+' Data</h2>';
+        newHTML += '</div>';
+        newHTML += '</div>';
+    }
+    else
+    {
+        newHTML += '<div id="emptyBackground">';
+        newHTML += '<div id="emptyContainer">';
+        newHTML += '<h2>Unable to Connect to Server</h2>';
+        newHTML += '</div>';
+        newHTML += '</div>';
+    }
+
+    return newHTML;
+}
+
+function pagination(pages, current, type)
+{
+    var newHTML = "";
+
+    switch (type)
+    {
+        case "map":
+            type = "Maps";
+        break;
+        case "variant":
+            type = "Variants";
+        break;
+        case "prefab":
+            type = "Prefabs";
+        break;
+        case "mod":
+            type = "Mods";
+        break;
+    }
+
+    if (current > 1) 
+    {
+        prevpage = current - 1;
+    } 
+    else 
+    {
+        prevpage = current;
+    }
+
+    if (current < pages) 
+    {
+        nextpage = current + 1;
+    } 
+    else 
+    {
+        nextpage = current;
+    }
+
+    if (current == 1)
+    {
+        newHTML += '<div id="invalidNavigationPrevious">';
+        newHTML += '<h3>Prev</h3>';
+        newHTML += '</div>';
+    }
+    else
+    {
+        newHTML += '<div id="navigationPrevious" onclick="load'+type+'('+prevpage+')">';
+        newHTML += '<h3>Prev</h3>';
+        newHTML += '</div>';
+    }
+
+    for (let i = 1; i <= pages; i++) 
+    {
+        if (current === i)
+        {
+            newHTML += '<div id="currentNavigationItem">';
+            newHTML += '<h3>'+i+'</h3>';
+            newHTML += '</div>';
+        } 
+        else 
+        {
+            newHTML += '<div id="navigationItems" onclick="load'+type+'('+i+')">';
+            newHTML += '<h3>'+i+'</h3>';
+            newHTML += '</div>';
+        }
+    }
+
+    if (current == pages)
+    {
+        newHTML += '<div id="invalidNavigationNext">';
+        newHTML += '<h3>Next</h3>';
+        newHTML += '</div>';
+    }
+    else
+    {
+        newHTML += '<div id="navigationNext" onclick="load'+type+'('+nextpage+')">';
+        newHTML += '<h3>Next</h3>';
+        newHTML += '</div>';
+    }
+
+    return newHTML;
+}
+
 function loadMaps(page = 1)
 {
     const xhttp = new XMLHttpRequest();
@@ -328,90 +487,23 @@ function loadMaps(page = 1)
             }
             newHTML += equalizeEntries(entries);
 
+            current = objects["page"];
             pages = Math.ceil(objects["total"] / objects["size"]);
 
-            if (objects["page"] > 1) 
-            {
-                prevpage = objects["page"] - 1;
-            } 
-            else 
-            {
-                prevpage = objects["page"];
-            }
-
-            if (objects["page"] < pages) 
-            {
-                nextpage = objects["page"] + 1;
-            } 
-            else 
-            {
-                nextpage = objects["page"];
-            }
-
             newHTML += '<div id="navigationBackground">';
-
-            if(prevpage === objects["page"])
-            {
-                newHTML += '<div id="invalidNavigationPrevious">';
-                newHTML += '<h3>Prev</h3>';
-                newHTML += '</div>';
-            }
-            else
-            {
-                newHTML += '<div id="navigationPrevious" onclick="loadMaps('+prevpage+')">';
-                newHTML += '<h3>Prev</h3>';
-                newHTML += '</div>';
-            }
-
-            for (let i = 1; i <= pages; i++) 
-            {
-                if (objects["page"] === i)
-                {
-                    newHTML += '<div id="currentNavigationItem">';
-                    newHTML += '<h3>'+i+'</h3>';
-                    newHTML += '</div>';
-                } 
-                else 
-                {
-                    newHTML += '<div id="navigationItems" onclick="loadMaps('+i+')">';
-                    newHTML += '<h3>'+i+'</h3>';
-                    newHTML += '</div>';
-                }
-            }
-
-            if(nextpage === objects["page"])
-            {
-                newHTML += '<div id="invalidNavigationNext">';
-                newHTML += '<h3>Next</h3>';
-                newHTML += '</div>';   
-            }
-            else
-            {
-                newHTML += '<div id="navigationNext" onclick="loadMaps('+nextpage+')">';
-                newHTML += '<h3>Next</h3>'; 
-                newHTML += '</div>';  
-            }
-
+            newHTML += pagination(pages, current, "map");
             newHTML += '</div>'; 
 
             if (objects == null)
             {
                 newHTML = '';
-                newHTML += '<div id="emptyBackground">';
-                newHTML += '<div id="emptyContainer">';
-                newHTML += '<h2>No Maps Found</h2>';
-                newHTML += '</div>';
-                newHTML += '</div>';
+                newHTML += generateEmptyPage("map");
             }
         }
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>Unable to Connect to Server</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("", false);
         }
         document.getElementById("mapCards").innerHTML = newHTML;
     }
@@ -444,90 +536,23 @@ function loadVariants(page = 1)
             }
             newHTML += equalizeEntries(entries);
 
+            current = objects["page"];
             pages = Math.ceil(objects["total"] / objects["size"]);
 
-            if (objects["page"] > 1) 
-            {
-                prevpage = objects["page"] - 1;
-            } 
-            else 
-            {
-                prevpage = objects["page"];
-            }
-
-            if (objects["page"] < pages) 
-            {
-                nextpage = objects["page"] + 1;
-            } 
-            else 
-            {
-                nextpage = objects["page"];
-            }
-
             newHTML += '<div id="navigationBackground">';
-
-            if(prevpage === objects["page"])
-            {
-                newHTML += '<div id="invalidNavigationPrevious">';
-                newHTML += '<h3>Prev</h3>';
-                newHTML += '</div>';
-            }
-            else
-            {
-                newHTML += '<div id="navigationPrevious" onclick="loadVariants('+prevpage+')">';
-                newHTML += '<h3>Prev</h3>';
-                newHTML += '</div>';
-            }
-
-            for (let i = 1; i <= pages; i++) 
-            {
-                if (objects["page"] === i)
-                {
-                    newHTML += '<div id="currentNavigationItem">';
-                    newHTML += '<h3>'+i+'</h3>';
-                    newHTML += '</div>';
-                } 
-                else 
-                {
-                    newHTML += '<div id="navigationItems" onclick="loadVariants('+i+')">';
-                    newHTML += '<h3>'+i+'</h3>';
-                    newHTML += '</div>';
-                }
-            }
-
-            if(nextpage === objects["page"])
-            {
-                newHTML += '<div id="invalidNavigationNext">';
-                newHTML += '<h3>Next</h3>';
-                newHTML += '</div>';   
-            }
-            else
-            {
-                newHTML += '<div id="navigationNext" onclick="loadVariants('+nextpage+')">';
-                newHTML += '<h3>Next</h3>';
-                newHTML += '</div>';   
-            }
-
+            newHTML += pagination(pages, current, "variant");
             newHTML += '</div>'; 
 
             if (objects == null)
             {
                 newHTML = '';
-                newHTML += '<div id="emptyBackground">';
-                newHTML += '<div id="emptyContainer">';
-                newHTML += '<h2>No Variants Found</h2>';
-                newHTML += '</div>';
-                newHTML += '</div>';
+                newHTML += generateEmptyPage("variant");
             }
         }
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>Unable to Connect to Server</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("", false);
         }
         document.getElementById("variantCards").innerHTML = newHTML;
     }
@@ -560,90 +585,23 @@ function loadPrefabs(page = 1)
             }
             newHTML += equalizeEntries(entries);
 
+            current = objects["page"];
             pages = Math.ceil(objects["total"] / objects["size"]);
 
-            if (objects["page"] > 1) 
-            {
-                prevpage = objects["page"] - 1;
-            } 
-            else 
-            {
-                prevpage = objects["page"];
-            }
-
-            if (objects["page"] < pages) 
-            {
-                nextpage = objects["page"] + 1;
-            } 
-            else 
-            {
-                nextpage = objects["page"];
-            }
-
             newHTML += '<div id="navigationBackground">';
-
-            if(prevpage === objects["page"])
-            {
-                newHTML += '<div id="invalidNavigationPrevious">';
-                newHTML += '<h3>Prev</h3>';
-                newHTML += '</div>';
-            }
-            else
-            {
-                newHTML += '<div id="navigationPrevious" onclick="loadMaps('+prevpage+')">';
-                newHTML += '<h3>Prev</h3>';
-                newHTML += '</div>';
-            }
-
-            for (let i = 1; i <= pages; i++) 
-            {
-                if (objects["page"] === i)
-                {
-                    newHTML += '<div id="currentNavigationItem">';
-                    newHTML += '<h3>'+i+'</h3>';
-                    newHTML += '</div>';
-                } 
-                else 
-                {
-                    newHTML += '<div id="navigationItems" onclick="loadMaps('+i+')">';
-                    newHTML += '<h3>'+i+'</h3>';
-                    newHTML += '</div>';
-                }
-            }
-
-            if(nextpage === objects["page"])
-            {
-                newHTML += '<div id="invalidNavigationNext">';
-                newHTML += '<h3>Next</h3>';
-                newHTML += '</div>';   
-            }
-            else
-            {
-                newHTML += '<div id="navigationNext" onclick="loadMaps('+nextpage+')">';
-                newHTML += '<h3>Next</h3>'; 
-                newHTML += '</div>';  
-            }
-
+            newHTML += pagination(pages, current, "prefab");
             newHTML += '</div>'; 
 
             if (objects == null)
             {
                 newHTML = '';
-                newHTML += '<div id="emptyBackground">';
-                newHTML += '<div id="emptyContainer">';
-                newHTML += '<h2>No Prefabs Found</h2>';
-                newHTML += '</div>';
-                newHTML += '</div>';
+                newHTML += generateEmptyPage("prefab");
             }
         }
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>Unable to Connect to Server</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("", false);
         }
         document.getElementById("prefabCards").innerHTML = newHTML;     
     }
@@ -680,21 +638,13 @@ function loadMods()
             if (objects == null)
             {
                 newHTML = '';
-                newHTML += '<div id="emptyBackground">';
-                newHTML += '<div id="emptyContainer">';
-                newHTML += '<h2>No Mods Found</h2>';
-                newHTML += '</div>';
-                newHTML += '</div>';
+                newHTML += generateEmptyPage("mod");
             }
         }
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>Unable to Connect to Server</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("", false);
         }
         document.getElementById("modCards").innerHTML = newHTML;
     }
@@ -838,11 +788,7 @@ function loadMapInfo(mapId)
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>An Error Occured While Attempting to Retrieve Map Data</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("map", true);
         }
         document.getElementById("mapInfo").innerHTML = newHTML;
     }
@@ -896,11 +842,7 @@ function loadVariantInfo(variantId)
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>An Error Occured While Attempting to Retrieve Variant Data</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("variant", true);
         }
         document.getElementById("variantInfo").innerHTML = newHTML;
     }
@@ -955,11 +897,7 @@ function loadPrefabInfo(prefabId)
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>An Error Occured While Attempting to Retrieve Prefab Data</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("prefab", true);
         }
         document.getElementById("prefabInfo").innerHTML = newHTML;
     }
@@ -1014,11 +952,7 @@ function loadModInfo(modId)
         else
         {
             newHTML = '';
-            newHTML += '<div id="emptyBackground">';
-            newHTML += '<div id="emptyContainer">';
-            newHTML += '<h2>An Error Occured While Attempting to Retrieve Mod Data</h2>';
-            newHTML += '</div>';
-            newHTML += '</div>';
+            newHTML += generateErrorPage("mod", true);
         }
         document.getElementById("modInfo").innerHTML = newHTML;
     }
