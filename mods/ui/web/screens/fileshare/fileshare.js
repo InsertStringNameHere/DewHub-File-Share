@@ -377,8 +377,12 @@ function generateErrorPage(type, isInfo)
     return newHTML;
 }
 
-function pagination(pages, current, type)
+function generatePagination(pages, current, type)
 {
+    var last = pages;
+    var delta = 2;
+    var left = current - delta;
+    var right = current + delta + 1;
     var newHTML = "";
 
     switch (type)
@@ -428,18 +432,49 @@ function pagination(pages, current, type)
         newHTML += '</div>';
     }
 
-    for (let i = 1; i <= pages; i++) 
+    for (let i = 1; i <= last; i++) 
     {
-        if (current === i)
+        if (i == left && left > delta - 1)
         {
-            newHTML += '<div id="currentNavigationItem">';
-            newHTML += '<h3>'+i+'</h3>';
+            newHTML += '<div id="navigationItems" onclick="load'+type+'('+1+')">';
+            newHTML += '<h3>'+1+'</h3>';
             newHTML += '</div>';
-        } 
-        else 
+
+            if (left != delta)
+            {
+                newHTML += '<div id="navigationItems">';
+                newHTML += '<h3>...</h3>';
+                newHTML += '</div>';
+            }
+        }
+
+        if (i >= left && i < right) 
         {
-            newHTML += '<div id="navigationItems" onclick="load'+type+'('+i+')">';
-            newHTML += '<h3>'+i+'</h3>';
+            if (current == i)
+            {
+                newHTML += '<div id="currentNavigationItem">';
+                newHTML += '<h3>'+i+'</h3>';
+                newHTML += '</div>';
+            } 
+            else 
+            {
+                newHTML += '<div id="navigationItems" onclick="load'+type+'('+i+')">';
+                newHTML += '<h3>'+i+'</h3>';
+                newHTML += '</div>';
+            }
+        }
+
+        if (i == right)
+        {
+            if (right != last)
+            {
+                newHTML += '<div id="navigationItems">';
+                newHTML += '<h3>...</h3>';
+                newHTML += '</div>';
+            }
+
+            newHTML += '<div id="navigationItems" onclick="load'+type+'('+last+')">';
+            newHTML += '<h3>'+last+'</h3>';
             newHTML += '</div>';
         }
     }
@@ -491,7 +526,7 @@ function loadMaps(page = 1)
             pages = Math.ceil(objects["total"] / objects["size"]);
 
             newHTML += '<div id="navigationBackground">';
-            newHTML += pagination(pages, current, "map");
+            newHTML += generatePagination(pages, current, "map");
             newHTML += '</div>'; 
 
             if (objects == null)
@@ -540,7 +575,7 @@ function loadVariants(page = 1)
             pages = Math.ceil(objects["total"] / objects["size"]);
 
             newHTML += '<div id="navigationBackground">';
-            newHTML += pagination(pages, current, "variant");
+            newHTML += generatePagination(pages, current, "variant");
             newHTML += '</div>'; 
 
             if (objects == null)
@@ -589,7 +624,7 @@ function loadPrefabs(page = 1)
             pages = Math.ceil(objects["total"] / objects["size"]);
 
             newHTML += '<div id="navigationBackground">';
-            newHTML += pagination(pages, current, "prefab");
+            newHTML += generatePagination(pages, current, "prefab");
             newHTML += '</div>'; 
 
             if (objects == null)
