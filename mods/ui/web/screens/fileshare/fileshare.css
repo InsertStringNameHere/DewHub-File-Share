@@ -465,6 +465,15 @@ div[id^='page']:target #buttonContainer
 	background: rgba(44, 65, 106, 0.949);
 }
 
+#truncationItems
+{
+	float: left;
+    display: flex;
+	margin: 0.5%;
+	padding: 0.5%;
+	background: rgba(44, 65, 106, 0.949);
+}
+
 #navigationPrevious, #navigationNext
 {
 	float: left;
@@ -481,7 +490,7 @@ div[id^='page']:target #buttonContainer
 	background-repeat: no-repeat;
 }
 
-#navigationItems h3, #navigationPrevious h3, #navigationNext h3, #invalidNavigationPrevious h3, #invalidNavigationNext h3, #currentNavigationItem h3
+#navigationItems h3, #navigationPrevious h3, #navigationNext h3, #invalidNavigationPrevious h3, #invalidNavigationNext h3, #currentNavigationItem h3, #truncationItems h3
 {
 	margin: 0%;
 	font-size: 1.93vh;

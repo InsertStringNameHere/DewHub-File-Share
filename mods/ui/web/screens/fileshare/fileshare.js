@@ -442,7 +442,7 @@ function generatePagination(pages, current, type)
 
             if (left != delta)
             {
-                newHTML += '<div id="navigationItems">';
+                newHTML += '<div id="truncationItems">';
                 newHTML += '<h3>...</h3>';
                 newHTML += '</div>';
             }
@@ -468,7 +468,7 @@ function generatePagination(pages, current, type)
         {
             if (right != last)
             {
-                newHTML += '<div id="navigationItems">';
+                newHTML += '<div id="truncationItems">';
                 newHTML += '<h3>...</h3>';
                 newHTML += '</div>';
             }
